@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TESI Notificario · Tecnológico de Estudios Superiores Ixtapaluca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0a0f;
+--bg2:#111118;
+--bg3:#1a1a25;
+--bg4:#22222f;
+--surface:#1e1e2c;
+--surface2:#252535;
+--border:#2e2e42;
+--border2:#3d3d56;
+--text:#f0f0f8;
+--text2:#a8a8c0;
+--text3:#6b6b88;
+--blue:#4a9eff;
+--blue-bg:#0d2040;
+--blue-dim:#1a3560;
+--green:#3dd68c;
+--green-bg:#0a2418;
+--green-dim:#143d28;
+--purple:#a78bfa;
+--purple-bg:#1a1040;
+--purple-dim:#2d1a6e;
+--amber:#fbbf24;
+--amber-bg:#2a1800;
+--amber-dim:#3d2600;
+--red:#f87171;
+--red-bg:#2a0d0d;
+--accent:#4a9eff;
+--radius:12px;
+--radius-sm:8px;
+--radius-lg:18px;
+--shadow:0 4px 24px rgba(0,0,0,.4);
+}
+[data-theme="light"]{
+--bg:#f4f4f8;
+--bg2:#ffffff;
+--bg3:#eaeaf2;
+--bg4:#dddde8;
+--surface:#ffffff;
+--surface2:#f8f8fc;
+--border:#dddde8;
+--border2:#c8c8d8;
+--text:#0d0d1a;
+--text2:#4a4a6a;
+--text3:#8a8aaa;
+--blue:#1a6fd4;
+--blue-bg:#e8f0fc;
+--blue-dim:#d0e4f8;
+--green:#15803d;
+--green-bg:#e6f6ee;
+--green-dim:#d0ece0;
+--purple:#7c3aed;
+--purple-bg:#f0ebff;
+--purple-dim:#e0d4fc;
+--amber:#b45309;
+--amber-bg:#fef6e4;
+--amber-dim:#fde8b0;
+--red:#dc2626;
+--red-bg:#feeaea;
+--surface:#ffffff;
+--shadow:0 2px 16px rgba(0,0,0,.1);
+}
+html{scroll-behavior:smooth}
+body{
+font-family:'DM Sans',system-ui,sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+overflow-x:hidden;
+transition:background .3s,color .3s;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* ── NAVBAR ── */
+.navbar{
+position:sticky;top:0;z-index:100;
+background:rgba(10,10,15,.85);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid var(--border);
+padding:0 24px;
+height:60px;
+display:flex;align-items:center;gap:16px;
+}
+[data-theme="light"] .navbar{background:rgba(255,255,255,.9)}
+.navbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.navbar-logo{
+width:36px;height:36px;border-radius:9px;
+background:linear-gradient(135deg,#1a6fd4,#4a9eff);
+display:flex;align-items:center;justify-content:center;
+font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff;
+flex-shrink:0;
+}
+.navbar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text)}
+.navbar-title span{color:var(--blue)}
+.navbar-spacer{flex:1}
+.search-wrap{position:relative;display:flex;align-items:center}
+.search-input{
+background:var(--bg3);border:1px solid var(--border);
+border-radius:99px;padding:7px 16px 7px 38px;
+font-size:14px;color:var(--text);width:220px;
+transition:border-color .2s,width .3s,background .3s;
+font-family:'DM Sans',sans-serif;
+}
+.search-input:focus{outline:none;border-color:var(--blue);width:280px;background:var(--bg2)}
+.search-input::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:12px;color:var(--text3);font-size:15px;pointer-events:none}
+.nav-btn{
+background:none;border:1px solid var(--border);border-radius:99px;
+color:var(--text2);font-size:13px;padding:6px 14px;cursor:pointer;
+display:flex;align-items:center;gap:6px;
+transition:border-color .2s,background .2s,color .2s;
+font-family:'DM Sans',sans-serif;
+}
+.nav-btn:hover{border-color:var(--border2);background:var(--bg3);color:var(--text)}
+.avatar-btn{
+width:34px;height:34px;border-radius:50%;
+background:linear-gradient(135deg,#7c3aed,#4a9eff);
+border:none;cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:#fff;
+}
+.theme-toggle{
+width:34px;height:34px;border-radius:50%;border:1px solid var(--border);
+background:none;cursor:pointer;color:var(--text2);font-size:16px;
+display:flex;align-items:center;justify-content:center;
+transition:all .2s;
+}
+.theme-toggle:hover{background:var(--bg3);color:var(--text)}
+.notif-btn{
+position:relative;width:34px;height:34px;border-radius:50%;
+border:1px solid var(--border);background:none;cursor:pointer;
+color:var(--text2);font-size:16px;
+display:flex;align-items:center;justify-content:center;
+transition:all .2s;
+}
+.notif-btn:hover{background:var(--bg3);color:var(--text)}
+.notif-dot{
+position:absolute;top:6px;right:6px;
+width:8px;height:8px;border-radius:50%;
+background:#f87171;border:2px solid var(--bg);
+}
+
+/* ── HERO SLIDER ── */
+.hero{
+position:relative;height:400px;overflow:hidden;
+background:var(--bg2);
+}
+@media(max-width:640px){.hero{height:280px}}
+.hero-slide{
+position:absolute;inset:0;
+display:flex;align-items:flex-end;
+padding:36px 40px;
+opacity:0;
+transition:opacity .8s ease;
+}
+@media(max-width:640px){.hero-slide{padding:20px}}
+.hero-slide.active{opacity:1;z-index:1}
+.hero-bg{
+position:absolute;inset:0;
+background-size:cover;background-position:center;
+transition:transform 8s ease;
+}
+.hero-slide.active .hero-bg{transform:scale(1.05)}
+.hero-overlay{
+position:absolute;inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.4) 50%,rgba(0,0,0,.1) 100%);
+}
+[data-theme="light"] .hero-overlay{
+background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.3) 60%,transparent 100%);
+}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-badge{
+display:inline-flex;align-items:center;gap:6px;
+padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600;
+text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;
+}
+.hero-title{
+font-family:'Syne',sans-serif;font-weight:800;
+font-size:clamp(22px,4vw,34px);color:#fff;line-height:1.15;margin-bottom:8px;
+}
+.hero-meta{font-size:13px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero-meta span{display:flex;align-items:center;gap:4px}
+.hero-cta{
+display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+background:#fff;color:#0a0a0f;
+border-radius:99px;padding:9px 20px;font-size:13px;font-weight:600;
+text-decoration:none;cursor:pointer;border:none;
+transition:transform .2s,opacity .2s;
+font-family:'DM Sans',sans-serif;
+}
+.hero-cta:hover{transform:translateY(-1px);opacity:.9}
+.hero-dots{
+position:absolute;bottom:20px;right:40px;z-index:10;
+display:flex;gap:6px;
+}
+.hero-dot{
+width:20px;height:4px;border-radius:99px;
+background:rgba(255,255,255,.3);border:none;cursor:pointer;
+transition:background .3s,width .3s;
+}
+.hero-dot.active{background:#fff;width:32px}
+.hero-arrows{
+position:absolute;top:50%;right:20px;z-index:10;
+transform:translateY(-50%);
+display:flex;flex-direction:column;gap:8px;
+}
+@media(max-width:640px){.hero-arrows{display:none}}
+.hero-arrow{
+width:32px;height:32px;border-radius:50%;
+background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+color:#fff;cursor:pointer;font-size:14px;
+display:flex;align-items:center;justify-content:center;
+backdrop-filter:blur(8px);
+transition:background .2s;
+}
+.hero-arrow:hover{background:rgba(255,255,255,.3)}
+
+/* ── FILTER BUBBLES ── */
+.filters-wrap{
+padding:20px 24px 0;
+display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.filter-chip{
+padding:7px 16px;border-radius:99px;
+font-size:13px;font-weight:500;cursor:pointer;
+border:1px solid var(--border);background:var(--bg3);color:var(--text2);
+transition:all .2s;white-space:nowrap;
+font-family:'DM Sans',sans-serif;
+}
+.filter-chip:hover{border-color:var(--border2);color:var(--text)}
+.filter-chip.active{border-color:transparent;color:#fff}
+.filter-chip.all.active{background:var(--blue);box-shadow:0 0 16px rgba(74,158,255,.3)}
+.filter-chip.academico.active{background:var(--blue);box-shadow:0 0 16px rgba(74,158,255,.3)}
+.filter-chip.deportivo.active{background:var(--green);box-shadow:0 0 16px rgba(61,214,140,.3);color:#0a2418}
+.filter-chip.cultural.active{background:var(--purple);box-shadow:0 0 16px rgba(167,139,250,.3)}
+.filter-chip.tramite.active{background:var(--amber);box-shadow:0 0 16px rgba(251,191,36,.3);color:#2a1800}
+.filter-chip.urgente.active{background:var(--red);box-shadow:0 0 16px rgba(248,113,113,.3)}
+.results-count{margin-left:auto;font-size:13px;color:var(--text3);white-space:nowrap}
+
+/* ── MAIN GRID ── */
+.main{padding:20px 24px 40px;max-width:1300px;margin:0 auto}
+.section-header{
+display:flex;align-items:center;gap:12px;margin-bottom:16px;
+}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px}
+.section-dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.cards-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+gap:16px;
+}
+@media(max-width:680px){.cards-grid{grid-template-columns:1fr}}
+
+/* ── EVENT CARD ── */
+.event-card{
+background:var(--surface);border:1px solid var(--border);
+border-radius:var(--radius-lg);overflow:hidden;
+cursor:pointer;
+transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+display:flex;flex-direction:column;
+}
+.event-card:hover{
+transform:translateY(-4px);
+box-shadow:var(--shadow);
+border-color:var(--border2);
+}
+.event-card:hover .card-img{transform:scale(1.06)}
+.card-img-wrap{
+position:relative;height:180px;overflow:hidden;
+background:var(--bg3);flex-shrink:0;
+}
+.card-img{
+width:100%;height:100%;object-fit:cover;
+transition:transform .4s ease;
+background:var(--bg3);
+display:block;
+}
+.card-img-placeholder{
+width:100%;height:100%;
+display:flex;align-items:center;justify-content:center;
+font-size:48px;
+}
+.card-cat-badge{
+position:absolute;top:10px;left:10px;
+padding:4px 10px;border-radius:99px;
+font-size:11px;font-weight:600;
+text-transform:uppercase;letter-spacing:.05em;
+backdrop-filter:blur(8px);
+}
+.badge-urgente{background:rgba(248,113,113,.9);color:#fff}
+.badge-academico{background:rgba(74,158,255,.9);color:#fff}
+.badge-deportivo{background:rgba(61,214,140,.9);color:#0a2418}
+.badge-cultural{background:rgba(167,139,250,.9);color:#fff}
+.badge-tramite{background:rgba(251,191,36,.9);color:#2a1800}
+.card-labels{
+position:absolute;top:10px;right:10px;
+display:flex;flex-direction:column;gap:4px;align-items:flex-end;
+}
+.label-pill{
+padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700;
+letter-spacing:.04em;text-transform:uppercase;
+}
+.label-hoy{background:#f87171;color:#fff;animation:pulse-hoy 2s infinite}
+@keyframes pulse-hoy{0%,100%{opacity:1}50%{opacity:.7}}
+.label-gratis{background:#3dd68c;color:#0a2418}
+.label-cupo{background:#fbbf24;color:#2a1800}
+.label-virtual{background:#a78bfa;color:#fff}
+.card-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-title{
+font-family:'Syne',sans-serif;font-weight:700;font-size:15px;
+line-height:1.3;color:var(--text);
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-desc{font-size:13px;color:var(--text2);line-height:1.5;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-meta{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.card-meta-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.card-meta-row svg{flex-shrink:0}
+.card-countdown{
+background:var(--bg3);border-radius:var(--radius-sm);
+padding:6px 10px;font-size:12px;color:var(--text2);
+display:flex;align-items:center;gap:6px;
+border:1px solid var(--border);
+font-variant-numeric:tabular-nums;
+}
+.countdown-val{font-weight:600;color:var(--text);font-family:'Syne',sans-serif}
+.card-footer{
+padding:10px 16px;
+border-top:1px solid var(--border);
+display:flex;align-items:center;gap:8px;
+}
+.avatar-stack{display:flex;align-items:center}
+.avatar-mini{
+width:22px;height:22px;border-radius:50%;
+border:2px solid var(--surface);
+background:linear-gradient(135deg,#7c3aed,#4a9eff);
+margin-left:-6px;font-size:9px;color:#fff;
+display:flex;align-items:center;justify-content:center;font-weight:700;
+flex-shrink:0;
+}
+.avatar-mini:first-child{margin-left:0}
+.avatar-count{font-size:12px;color:var(--text2);margin-left:8px}
+.react-row{display:flex;gap:4px;align-items:center;margin-left:auto}
+.react-btn{
+background:none;border:none;cursor:pointer;
+font-size:16px;padding:2px 4px;border-radius:6px;
+transition:transform .15s,background .15s;
+display:flex;align-items:center;gap:2px;
+}
+.react-btn:hover{transform:scale(1.3);background:var(--bg3)}
+.react-btn span{font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif}
+.attend-btn{
+margin-left:auto;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:600;
+border:1px solid var(--border);background:none;color:var(--text2);cursor:pointer;
+transition:all .2s;font-family:'DM Sans',sans-serif;
+display:flex;align-items:center;gap:5px;
+}
+.attend-btn:hover{border-color:var(--blue);color:var(--blue)}
+.attend-btn.attending{
+background:var(--blue-dim);border-color:var(--blue);color:var(--blue);
+}
+
+/* ── SKELETON LOADER ── */
+.skeleton{
+background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);
+background-size:200% 100%;
+animation:shimmer 1.5s infinite;
+border-radius:6px;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── CALENDAR SECTION ── */
+.calendar-wrap{
+background:var(--surface);border:1px solid var(--border);
+border-radius:var(--radius-lg);padding:20px;
+}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px}
+.cal-nav{display:flex;gap:6px}
+.cal-nav-btn{
+width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+background:none;color:var(--text2);cursor:pointer;font-size:14px;
+display:flex;align-items:center;justify-content:center;
+transition:all .2s;
+}
+.cal-nav-btn:hover{background:var(--bg3);color:var(--text)}
+.cal-grid{
+display:grid;grid-template-columns:repeat(7,1fr);gap:2px;
+}
+.cal-dow{font-size:11px;color:var(--text3);text-align:center;padding:4px 0;font-weight:500}
+.cal-day{
+aspect-ratio:1;border-radius:var(--radius-sm);
+display:flex;align-items:center;justify-content:center;
+font-size:13px;cursor:pointer;color:var(--text2);
+transition:background .15s,color .15s;
+position:relative;
+flex-direction:column;gap:2px;
+}
+.cal-day:hover{background:var(--bg3);color:var(--text)}
+.cal-day.today{background:var(--blue);color:#fff;font-weight:700}
+.cal-day.today:hover{background:var(--blue)}
+.cal-day.other-month{opacity:.3}
+.cal-day.has-event::after{
+content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
+width:4px;height:4px;border-radius:50%;background:var(--blue);
+}
+.cal-day.today::after{background:#fff}
+.cal-legend{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.cal-legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── SIDEBAR ── */
+.layout{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
+.sidebar-widget{
+background:var(--surface);border:1px solid var(--border);
+border-radius:var(--radius-lg);padding:18px;margin-bottom:16px;
+}
+.widget-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:14px;color:var(--text)}
+.trending-item{
+display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+border-bottom:1px solid var(--border);cursor:pointer;
+transition:opacity .2s;
+}
+.trending-item:last-child{border-bottom:none}
+.trending-item:hover{opacity:.75}
+.trending-num{
+font-family:'Syne',sans-serif;font-weight:800;font-size:20px;
+color:var(--border2);line-height:1;flex-shrink:0;width:24px;
+}
+.trending-text{font-size:13px;color:var(--text);line-height:1.4}
+.trending-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.quick-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-box{
+background:var(--bg3);border-radius:var(--radius-sm);padding:12px;text-align:center;
+}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--text)}
+.stat-label{font-size:11px;color:var(--text3);margin-top:2px}
+.notif-subscribe{
+background:linear-gradient(135deg,var(--blue-dim),var(--purple-dim));
+border:1px solid var(--blue);
+border-radius:var(--radius-lg);padding:18px;margin-bottom:16px;
+}
+.notif-subscribe p{font-size:13px;color:var(--text2);margin:6px 0 12px;line-height:1.5}
+.sub-btn{
+width:100%;padding:9px;border-radius:99px;
+border:none;background:var(--blue);color:#fff;
+font-size:13px;font-weight:600;cursor:pointer;
+font-family:'DM Sans',sans-serif;
+transition:opacity .2s;
+}
+.sub-btn:hover{opacity:.85}
+
+/* ── MODAL ── */
+.modal-overlay{
+position:fixed;inset:0;z-index:200;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(4px);
+display:flex;align-items:center;justify-content:center;
+padding:20px;
+opacity:0;pointer-events:none;
+transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+background:var(--surface);border:1px solid var(--border);
+border-radius:20px;max-width:620px;width:100%;
+max-height:90vh;overflow-y:auto;
+transform:translateY(20px);
+transition:transform .3s;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-img{width:100%;height:240px;object-fit:cover;background:var(--bg3)}
+.modal-body{padding:24px}
+.modal-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600;margin-bottom:12px}
+.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;line-height:1.2;margin-bottom:12px}
+.modal-desc{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.modal-info{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.modal-info-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
+.modal-info-row svg{flex-shrink:0;color:var(--blue)}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap}
+.modal-action-btn{
+padding:10px 20px;border-radius:99px;font-size:14px;font-weight:600;
+cursor:pointer;transition:all .2s;
+font-family:'DM Sans',sans-serif;
+display:flex;align-items:center;gap:7px;
+}
+.btn-primary{background:var(--blue);color:#fff;border:none}
+.btn-primary:hover{opacity:.85}
+.btn-outline{background:none;border:1px solid var(--border2);color:var(--text2)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.modal-close{
+position:absolute;top:16px;right:16px;
+width:32px;height:32px;border-radius:50%;
+background:rgba(0,0,0,.5);border:none;color:#fff;cursor:pointer;
+font-size:18px;display:flex;align-items:center;justify-content:center;
+z-index:5;
+}
+.modal-img-wrap{position:relative}
+.comments-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.comments-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px}
+.comment{display:flex;gap:10px;margin-bottom:12px}
+.comment-av{
+width:30px;height:30px;border-radius:50%;flex-shrink:0;
+background:linear-gradient(135deg,#7c3aed,#4a9eff);
+display:flex;align-items:center;justify-content:center;
+font-size:11px;font-weight:700;color:#fff;
+}
+.comment-bubble{background:var(--bg3);border-radius:12px 12px 12px 4px;padding:10px 12px;flex:1}
+.comment-author{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.comment-text{font-size:13px;color:var(--text2);line-height:1.5}
+.comment-input-wrap{display:flex;gap:8px;margin-top:10px}
+.comment-input{
+flex:1;background:var(--bg3);border:1px solid var(--border);
+border-radius:99px;padding:8px 16px;font-size:13px;color:var(--text);
+font-family:'DM Sans',sans-serif;
+}
+.comment-input:focus{outline:none;border-color:var(--blue)}
+.comment-send{
+background:var(--blue);border:none;border-radius:99px;
+color:#fff;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;
+font-family:'DM Sans',sans-serif;
+}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:300;display:flex;flex-direction:column;gap:8px}
+.toast{
+background:var(--surface2);border:1px solid var(--border2);
+border-radius:var(--radius);padding:12px 16px;
+font-size:13px;color:var(--text);
+display:flex;align-items:center;gap:10px;
+box-shadow:var(--shadow);
+transform:translateX(120%);
+transition:transform .3s ease;
+max-width:300px;
+}
+.toast.show{transform:translateX(0)}
+.toast-icon{font-size:18px;flex-shrink:0}
+
+/* ── TABS ── */
+.view-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:99px;padding:3px;margin-left:auto}
+.view-tab{
+padding:5px 14px;border-radius:99px;font-size:12px;font-weight:500;
+border:none;background:none;color:var(--text3);cursor:pointer;
+transition:all .2s;
+font-family:'DM Sans',sans-serif;
+}
+.view-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+
+/* ── POLL WIDGET ── */
+.poll-widget{
+background:var(--surface);border:1px solid var(--border);
+border-radius:var(--radius-lg);padding:18px;margin-bottom:16px;
+}
+.poll-q{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:12px}
+.poll-opt{
+padding:9px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);
+background:var(--bg3);cursor:pointer;font-size:13px;margin-bottom:6px;
+transition:all .2s;color:var(--text2);
+display:flex;align-items:center;justify-content:space-between;
+}
+.poll-opt:hover:not(.voted){border-color:var(--blue);color:var(--text)}
+.poll-opt.voted{cursor:default}
+.poll-bar-wrap{width:100%;background:var(--bg4);border-radius:99px;height:4px;margin-top:4px}
+.poll-bar{height:4px;border-radius:99px;background:var(--blue);transition:width .6s ease}
+.poll-pct{font-size:11px;color:var(--text3);font-weight:600}
+
+/* ── POINTS BADGE ── */
+.points-badge{
+background:linear-gradient(135deg,var(--amber-dim),var(--amber-bg));
+border:1px solid var(--amber);border-radius:var(--radius-lg);
+padding:14px 16px;margin-bottom:16px;
+display:flex;align-items:center;gap:12px;
+}
+.points-icon{font-size:28px}
+.points-info .points-val{
+font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--amber);
+}
+.points-info .points-label{font-size:12px;color:var(--text2);margin-top:1px}
+
+/* ── RESPONSIVE NAV MENU ── */
+@media(max-width:640px){
+.search-wrap{display:none}
+.nav-text{display:none}
+}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+grid-column:1/-1;
+display:flex;flex-direction:column;align-items:center;
+padding:60px 20px;color:var(--text3);text-align:center;
+}
+.empty-state .emoji{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="navbar-brand" href="#">
+    <div class="navbar-logo">T</div>
+    <div class="navbar-title">TESI <span>Notificario</span></div>
+  </a>
+  <div class="search-wrap">
+    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" class="search-input" placeholder="Buscar eventos…" id="searchInput">
+  </div>
+  <div class="navbar-spacer"></div>
+  <button class="notif-btn" onclick="showToast('🔔','Notificaciones activadas','Has activado las notificaciones push')">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <span class="notif-dot"></span>
+  </button>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <button class="avatar-btn" onclick="showToast('👤','Mi perfil','Estudiante · 240 puntos acumulados')">AL</button>
+</nav>
+
+<!-- HERO SLIDER -->
+<div class="hero" id="heroSlider">
+  <!-- Slides generados dinámicamente -->
+</div>
+
+<!-- FILTROS -->
+<div class="filters-wrap" id="filtersWrap">
+  <button class="filter-chip all active" data-cat="all" onclick="setFilter('all',this)">🎯 Todos</button>
+  <button class="filter-chip academico" data-cat="academico" onclick="setFilter('academico',this)">📘 Académicos</button>
+  <button class="filter-chip deportivo" data-cat="deportivo" onclick="setFilter('deportivo',this)">⚽ Deportivos</button>
+  <button class="filter-chip cultural" data-cat="cultural" onclick="setFilter('cultural',this)">🎭 Culturales</button>
+  <button class="filter-chip tramite" data-cat="tramite" onclick="setFilter('tramite',this)">📋 Trámites</button>
+  <button class="filter-chip urgente" data-cat="urgente" onclick="setFilter('urgente',this)">🔴 Urgentes</button>
+  <span class="results-count" id="resultsCount">12 eventos</span>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <div class="layout">
+    <!-- LEFT: CARDS -->
+    <div>
+      <div class="section-header">
+        <div class="section-dot"></div>
+        <h2 class="section-title">Próximos Eventos</h2>
+        <div class="view-tabs" style="margin-left:auto">
+          <button class="view-tab active" onclick="setView('grid',this)">Grid</button>
+          <button class="view-tab" onclick="setView('list',this)">Lista</button>
+        </div>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <!-- RIGHT: SIDEBAR -->
+    <div id="sidebar">
+      <!-- Points -->
+      <div class="points-badge">
+        <div class="points-icon">⭐</div>
+        <div class="points-info">
+          <div class="points-val">240 pts</div>
+          <div class="points-label">Tu puntaje TESI — ¡Top 12% del campus!</div>
+        </div>
+      </div>
+
+      <!-- Subscribe -->
+      <div class="notif-subscribe">
+        <div class="widget-title" style="margin-bottom:4px">🔔 Alertas Activas</div>
+        <p>Recibe notificaciones de eventos importantes directamente en tu correo institucional.</p>
+        <button class="sub-btn" onclick="showToast('✅','Suscripción activada','Recibirás alertas en tu correo @tesi.edu.mx')">Activar Alertas</button>
+      </div>
+
+      <!-- Trending -->
+      <div class="sidebar-widget">
+        <div class="widget-title">🔥 Más Popular</div>
+        <div id="trendingList"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="sidebar-widget">
+        <div class="widget-title">📊 Este Mes</div>
+        <div class="quick-stats">
+          <div class="stat-box"><div class="stat-num" id="statTotal">12</div><div class="stat-label">Eventos</div></div>
+          <div class="stat-box"><div class="stat-num" id="statAttend">3</div><div class="stat-label">Confirmados</div></div>
+          <div class="stat-box"><div class="stat-num">847</div><div class="stat-label">Estudiantes</div></div>
+          <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Categorías</div></div>
+        </div>
+      </div>
+
+      <!-- Poll -->
+      <div class="poll-widget">
+        <div class="poll-q">¿Qué tipo de eventos te interesan más?</div>
+        <div id="pollOpts"></div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <span class="cal-title" id="calTitle"></span>
+          <div class="cal-nav">
+            <button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+            <button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--blue)"></div>Hoy</div>
+          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--text3)"></div>Con evento</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img-wrap">
+      <div class="modal-img" id="modalImg" style="display:flex;align-items:center;justify-content:center;font-size:64px"></div>
+      <button class="modal-close" onclick="closeModalDirect()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-badge" id="modalBadge"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-info" id="modalInfo"></div>
+      <div class="modal-actions" id="modalActions"></div>
+      <div class="comments-section">
+        <div class="comments-title">💬 Preguntas y comentarios</div>
+        <div id="modalComments"></div>
+        <div class="comment-input-wrap">
+          <input type="text" class="comment-input" placeholder="Escribe un comentario…" id="commentInput">
+          <button class="comment-send" onclick="addComment()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+// ── DATA ──
+const events = [
+  {
+    id:1,cat:'academico',
+    title:'Conferencia: Inteligencia Artificial en Ingeniería',
+    desc:'Ponente invitado del MIT explora aplicaciones de IA en manufactura inteligente y sistemas embebidos. Incluye taller práctico.',
+    date:new Date(Date.now()+86400000),loc:'Auditorio Principal A-101',
+    emoji:'🤖',labels:['gratis'],attend:142,reactions:{fire:34,wow:18,grad:67,party:11},
+    attending:false,
+    comments:[
+      {av:'MR',name:'María R.',text:'¿Se grabará la sesión?'},
+      {av:'JC',name:'Javier C.',text:'Sí, estará disponible en la plataforma 48h después.'},
+    ]
+  },
+  {
+    id:2,cat:'deportivo',
+    title:'Torneo Interfacultades de Fútbol ⚽',
+    desc:'Copa TESI 2025. Inscribe a tu equipo antes del viernes. Premiación con trofeo y puntos TESI extra.',
+    date:new Date(Date.now()+3*86400000),loc:'Canchas Deportivas Sector Norte',
+    emoji:'⚽',labels:['cupo'],attend:89,reactions:{fire:52,wow:8,grad:5,party:41},
+    attending:false,
+    comments:[{av:'AL',name:'Ale L.',text:'¿Cuántos jugadores por equipo?'}]
+  },
+  {
+    id:3,cat:'urgente',
+    title:'⚠️ Cambio de Horario — Examen Extraordinario Cálculo II',
+    desc:'Por ajuste administrativo, el examen extraordinario de Cálculo II se mueve al Salón B-204. Favor de revisar su horario actualizado.',
+    date:new Date(Date.now()+2*3600000),loc:'Salón B-204',
+    emoji:'⚠️',labels:['hoy'],attend:310,reactions:{fire:5,wow:89,grad:23,party:0},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:4,cat:'cultural',
+    title:'Festival de Teatro Universitario',
+    desc:'Tres obras en escena. Entrada libre. Elenco conformado por alumnos de la carrera de Comunicación y Arte.',
+    date:new Date(Date.now()+7*86400000),loc:'Explanada Central Campus',
+    emoji:'🎭',labels:['gratis'],attend:203,reactions:{fire:28,wow:15,grad:12,party:89},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:5,cat:'tramite',
+    title:'Ventanilla Escolar: Constancias y Certificados',
+    desc:'Apertura de módulo express para trámite de constancias. Sin cita previa. Solo INE y credencial vigente.',
+    date:new Date(Date.now()+86400000*2),loc:'Edificio Administración Planta Baja',
+    emoji:'📄',labels:[],attend:45,reactions:{fire:2,wow:5,grad:18,party:0},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:6,cat:'academico',
+    title:'Hackathon TESI 2025 — 24 horas de código',
+    desc:'Resuelve retos de transformación digital para empresas locales. Premios en efectivo, mentoría y carta de recomendación.',
+    date:new Date(Date.now()+14*86400000),loc:'Sala de Cómputo C-300 / Virtual',
+    emoji:'💻',labels:['virtual','cupo'],attend:78,reactions:{fire:91,wow:44,grad:38,party:29},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:7,cat:'cultural',
+    title:'Taller: Fotografía con Teléfono Móvil',
+    desc:'Aprende composición, edición y storytelling visual usando solo tu smartphone. Impartido por fotógrafa profesional.',
+    date:new Date(Date.now()+5*86400000),loc:'Sala Multimedia M-102',
+    emoji:'📸',labels:['gratis'],attend:34,reactions:{fire:19,wow:12,grad:8,party:21},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:8,cat:'deportivo',
+    title:'Clase Abierta de Yoga y Meditación',
+    desc:'Sesión de bienestar para estudiantes. Trae tu tapete. Ambiente tranquilo para aliviar el estrés de exámenes.',
+    date:new Date(Date.now()+3*86400000),loc:'Jardín Central — Área Verde',
+    emoji:'🧘',labels:['gratis'],attend:56,reactions:{fire:13,wow:7,grad:4,party:33},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:9,cat:'academico',
+    title:'Expo TESI 2025 — Proyectos de Ingeniería',
+    desc:'Presentación de proyectos finales de las carreras de ISC, IM y IE. Jurado externo de empresas tecnológicas.',
+    date:new Date(Date.now()+20*86400000),loc:'Auditorio A + Pasillos Centrales',
+    emoji:'🔬',labels:[],attend:512,reactions:{fire:103,wow:67,grad:201,party:45},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:10,cat:'tramite',
+    title:'Inscripciones Servicio Social — Periodo Agosto',
+    desc:'Apertura de inscripciones al programa de servicio social. Revisa los convenios con dependencias gubernamentales disponibles.',
+    date:new Date(Date.now()+86400000),loc:'Portal TESI Online + Control Escolar',
+    emoji:'📋',labels:['virtual'],attend:190,reactions:{fire:5,wow:10,grad:88,party:3},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:11,cat:'cultural',
+    title:'Concierto Fin de Semestre',
+    desc:'Cierre del semestre con grupos musicales estudiantiles: jazz, rock, y conjunto de cuerdas. Acceso libre.',
+    date:new Date(Date.now()+18*86400000),loc:'Auditorio Principal',
+    emoji:'🎵',labels:['gratis'],attend:388,reactions:{fire:142,wow:55,grad:18,party:201},
+    attending:false,
+    comments:[]
+  },
+  {
+    id:12,cat:'urgente',
+    title:'Corte de Agua: Lunes 9am–2pm',
+    desc:'Por mantenimiento preventivo de la red hidráulica, no habrá suministro de agua el lunes en edificios A, B y C.',
+    date:new Date(Date.now()+86400000),loc:'Edificios A, B, C',
+    emoji:'💧',labels:['hoy'],attend:0,reactions:{fire:0,wow:45,grad:0,party:0},
+    attending:false,
+    comments:[]
+  }
+];
+
+const heroSlides = [
+  {id:6,color:'#1a3560',emoji:'💻'},
+  {id:1,color:'#0a2418',emoji:'🤖'},
+  {id:4,color:'#1a1040',emoji:'🎭'},
+  {id:9,color:'#1a1040',emoji:'🔬'},
+];
+
+const catColors = {
+  academico:{bg:'var(--blue-bg)',border:'var(--blue)',text:'var(--blue)',badge:'badge-academico'},
+  deportivo:{bg:'var(--green-bg)',border:'var(--green)',text:'var(--green)',badge:'badge-deportivo'},
+  cultural:{bg:'var(--purple-bg)',border:'var(--purple)',text:'var(--purple)',badge:'badge-cultural'},
+  tramite:{bg:'var(--amber-bg)',border:'var(--amber)',text:'var(--amber)',badge:'badge-tramite'},
+  urgente:{bg:'var(--red-bg)',border:'var(--red)',text:'var(--red)',badge:'badge-urgente'},
+};
+const catNames = {academico:'Académico',deportivo:'Deportivo',cultural:'Cultural',tramite:'Trámite',urgente:'Urgente'};
+const catEmojis = {academico:'📘',deportivo:'⚽',cultural:'🎭',tramite:'📋',urgente:'🔴'};
+
+let currentFilter = 'all';
+let currentView = 'grid';
+let calMonth, calYear;
+
+// ── UTILS ──
+function fmtDate(d){
+  const opts={weekday:'short',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'};
+  return d.toLocaleDateString('es-MX',opts);
+}
+function timeLeft(d){
+  const ms=d-Date.now();
+  if(ms<=0)return null;
+  const h=Math.floor(ms/3600000);
+  const m=Math.floor((ms%3600000)/60000);
+  const s=Math.floor((ms%60000)/1000);
+  if(h>24*7)return null;
+  if(h>24){const days=Math.floor(h/24);return `${days}d ${h%24}h`;}
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function showToast(icon,title,msg){
+  const wrap=document.getElementById('toastWrap');
+  const t=document.createElement('div');
+  t.className='toast';
+  t.innerHTML=`<span class="toast-icon">${icon}</span><div><strong style="display:block;margin-bottom:2px">${title}</strong><span style="color:var(--text2);font-size:12px">${msg}</span></div>`;
+  wrap.appendChild(t);
+  setTimeout(()=>t.classList.add('show'),50);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},4000);
+}
+
+// ── HERO SLIDER ──
+let heroIdx=0,heroTimer;
+function buildHero(){
+  const container=document.getElementById('heroSlider');
+  const slides=heroSlides.map(h=>{
+    const ev=events.find(e=>e.id===h.id);
+    if(!ev)return'';
+    const cat=catColors[ev.cat];
+    return `<div class="hero-slide" data-idx="${heroSlides.indexOf(h)}">
+      <div class="hero-bg" style="background:${h.color};display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:120px;opacity:.15;user-select:none">${ev.emoji}</div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-badge ${cat.badge}" style="background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(8px)">
+          ${catEmojis[ev.cat]} ${catNames[ev.cat]}
+        </div>
+        <div class="hero-title">${ev.title}</div>
+        <div class="hero-meta">
+          <span>📍 ${ev.loc}</span>
+          <span>👥 ${ev.attend.toLocaleString()} asistirán</span>
+        </div>
+        <button class="hero-cta" onclick="openModal(${ev.id})">Ver detalles →</button>
+      </div>
+    </div>`;
+  }).join('');
+  const dots=heroSlides.map((_,i)=>`<button class="hero-dot${i===0?' active':''}" onclick="goHero(${i})"></button>`).join('');
+  const arrows=`<div class="hero-arrows">
+    <button class="hero-arrow" onclick="goHero((heroIdx-1+${heroSlides.length})%${heroSlides.length})">↑</button>
+    <button class="hero-arrow" onclick="goHero((heroIdx+1)%${heroSlides.length})">↓</button>
+  </div>`;
+  container.innerHTML=slides+`<div class="hero-dots">${dots}</div>`+arrows;
+  goHero(0);
+  heroTimer=setInterval(()=>goHero((heroIdx+1)%heroSlides.length),5000);
+}
+function goHero(i){
+  heroIdx=i;
+  document.querySelectorAll('.hero-slide').forEach((s,j)=>s.classList.toggle('active',j===i));
+  document.querySelectorAll('.hero-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+
+// ── CARDS ──
+function getFiltered(){
+  let evs=events.filter(e=>{
+    if(currentFilter!=='all'&&e.cat!==currentFilter)return false;
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    if(q&&!e.title.toLowerCase().includes(q)&&!e.desc.toLowerCase().includes(q))return false;
+    return true;
+  });
+  return evs;
+}
+function renderCards(){
+  const grid=document.getElementById('cardsGrid');
+  const evs=getFiltered();
+  document.getElementById('resultsCount').textContent=`${evs.length} evento${evs.length!==1?'s':''}`;
+  document.getElementById('statTotal').textContent=evs.length;
+  document.getElementById('statAttend').textContent=events.filter(e=>e.attending).length;
+  if(evs.length===0){
+    grid.innerHTML=`<div class="empty-state"><div class="emoji">🔍</div><p>No hay eventos en esta categoría por ahora.</p></div>`;
+    return;
+  }
+  grid.style.gridTemplateColumns=currentView==='list'?'1fr':'repeat(auto-fill,minmax(300px,1fr))';
+  grid.innerHTML=evs.map(ev=>{
+    const cat=catColors[ev.cat];
+    const tl=timeLeft(ev.date);
+    const labelHtml=ev.labels.map(l=>`<span class="label-pill label-${l}">${l==='hoy'?'¡HOY!':l==='gratis'?'GRATIS':l==='cupo'?'CUPO LIM.':'VIRTUAL'}</span>`).join('');
+    const countdown=tl?`<div class="card-countdown">⏱ <span class="countdown-val" data-id="${ev.id}">Cargando…</span></div>`:'';
+    const avColors=['#4a9eff','#3dd68c','#a78bfa','#f87171','#fbbf24'];
+    const avatars=[...Array(3)].map((_,i)=>`<div class="avatar-mini" style="background:${avColors[i%5]}">${String.fromCharCode(65+i)}</div>`).join('');
+    return `<div class="event-card" onclick="openModal(${ev.id})">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder" style="background:${cat.bg}">${ev.emoji}</div>
+        <span class="card-cat-badge ${cat.badge}">${catNames[ev.cat]}</span>
+        <div class="card-labels">${labelHtml}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${ev.title}</div>
+        <div class="card-desc">${ev.desc}</div>
+        <div class="card-meta">
+          <div class="card-meta-row">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${fmtDate(ev.date)}
+          </div>
+          <div class="card-meta-row">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${ev.loc}
+          </div>
+        </div>
+        ${countdown}
+      </div>
+      <div class="card-footer">
+        <div class="avatar-stack">${avatars}<div class="avatar-count">+${ev.attend} asistirán</div></div>
+        <div class="react-row">
+          <button class="react-btn" onclick="event.stopPropagation();react(${ev.id},'fire',this)" title="Fuego">🔥<span id="r${ev.id}fire">${ev.reactions.fire}</span></button>
+          <button class="react-btn" onclick="event.stopPropagation();react(${ev.id},'wow',this)" title="Wow">😮<span id="r${ev.id}wow">${ev.reactions.wow}</span></button>
+        </div>
+        <button class="attend-btn${ev.attending?' attending':''}" id="attend-${ev.id}" 
+          onclick="event.stopPropagation();toggleAttend(${ev.id})">
+          ${ev.attending?'✓ Asistiré':'+ Asistiré'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+  updateCountdowns();
+}
+
+function setFilter(cat,el){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderCards();
+}
+function setView(v,el){
+  currentView=v;
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderCards();
+}
+
+// ── ATTEND ──
+function toggleAttend(id){
+  const ev=events.find(e=>e.id===id);
+  ev.attending=!ev.attending;
+  if(ev.attending){ev.attend++;showToast('✅','¡Confirmado!',`Asistirás a: ${ev.title.slice(0,40)}…`);}
+  else{ev.attend--;showToast('👋','Cancelado','Has cancelado tu asistencia');}
+  renderCards();
+}
+
+// ── REACTIONS ──
+function react(id,type,btn){
+  const ev=events.find(e=>e.id===id);
+  ev.reactions[type]++;
+  const span=document.getElementById(`r${id}${type}`);
+  if(span)span.textContent=ev.reactions[type];
+  btn.style.transform='scale(1.5)';
+  setTimeout(()=>btn.style.transform='',200);
+}
+
+// ── COUNTDOWNS ──
+function updateCountdowns(){
+  events.forEach(ev=>{
+    const tl=timeLeft(ev.date);
+    const el=document.querySelector(`[data-id="${ev.id}"]`);
+    if(el&&tl)el.textContent=tl;
+  });
+}
+setInterval(updateCountdowns,1000);
+
+// ── MODAL ──
+let openModalId=null;
+function openModal(id){
+  const ev=events.find(e=>e.id===id);
+  if(!ev)return;
+  openModalId=id;
+  const cat=catColors[ev.cat];
+  document.getElementById('modalImg').textContent=ev.emoji;
+  document.getElementById('modalImg').style.background=cat.bg;
+  document.getElementById('modalBadge').textContent=`${catEmojis[ev.cat]} ${catNames[ev.cat]}`;
+  document.getElementById('modalBadge').className=`modal-badge ${cat.badge}`;
+  document.getElementById('modalTitle').textContent=ev.title;
+  document.getElementById('modalDesc').textContent=ev.desc;
+  document.getElementById('modalInfo').innerHTML=`
+    <div class="modal-info-row"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${fmtDate(ev.date)}</div>
+    <div class="modal-info-row"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${ev.loc}</div>
+    <div class="modal-info-row"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${ev.attend} personas asistirán</div>
+  `;
+  document.getElementById('modalActions').innerHTML=`
+    <button class="modal-action-btn btn-primary" onclick="toggleAttend(${id});closeModalDirect()">${ev.attending?'Cancelar asistencia':'✓ Confirmar asistencia'}</button>
+    <button class="modal-action-btn btn-outline" onclick="showToast('📅','Exportado','Evento añadido a tu Google Calendar')">📅 Agregar al calendario</button>
+    <button class="modal-action-btn btn-outline" onclick="showToast('🔗','Enlace copiado','Comparte el evento con tus compañeros')">🔗 Compartir</button>
+  `;
+  renderComments(id);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderComments(id){
+  const ev=events.find(e=>e.id===id);
+  const wrap=document.getElementById('modalComments');
+  const initials=n=>n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  wrap.innerHTML=ev.comments.length===0?`<p style="font-size:13px;color:var(--text3);margin-bottom:8px">Sé el primero en comentar.</p>`:
+    ev.comments.map(c=>`<div class="comment">
+      <div class="comment-av">${c.av}</div>
+      <div class="comment-bubble">
+        <div class="comment-author">${c.name}</div>
+        <div class="comment-text">${c.text}</div>
+      </div>
+    </div>`).join('');
+}
+function addComment(){
+  if(openModalId===null)return;
+  const inp=document.getElementById('commentInput');
+  const text=inp.value.trim();
+  if(!text)return;
+  const ev=events.find(e=>e.id===openModalId);
+  ev.comments.push({av:'AL',name:'Alejandro L.',text});
+  inp.value='';
+  renderComments(openModalId);
+  showToast('💬','Comentario publicado','Tu pregunta fue enviada');
+}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect();}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  openModalId=null;
+}
+
+// ── CALENDAR ──
+const MONTHS_ES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS_ES=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+function buildCalendar(){
+  const now=new Date();
+  calMonth=now.getMonth();calYear=now.getFullYear();
+  renderCalendar();
+}
+function changeMonth(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function renderCalendar(){
+  document.getElementById('calTitle').textContent=`${MONTHS_ES[calMonth]} ${calYear}`;
+  const grid=document.getElementById('calGrid');
+  const dows=DAYS_ES.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  const today=new Date();
+  const eventDays=new Set(events.map(e=>e.date.getFullYear()===calYear&&e.date.getMonth()===calMonth?e.date.getDate():null).filter(Boolean));
+  let cells='';
+  for(let i=0;i<first;i++){
+    const d=prevDays-first+i+1;
+    cells+=`<div class="cal-day other-month">${d}</div>`;
+  }
+  for(let d=1;d<=days;d++){
+    const isToday=d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear();
+    const hasEv=eventDays.has(d);
+    cells+=`<div class="cal-day${isToday?' today':''}${hasEv?' has-event':''}" onclick="showToast('📅','${d} ${MONTHS_ES[calMonth]}','${hasEv?'Hay eventos este día':'Sin eventos'}')">${d}</div>`;
+  }
+  const remaining=(7-((first+days)%7))%7;
+  for(let d=1;d<=remaining;d++)cells+=`<div class="cal-day other-month">${d}</div>`;
+  grid.innerHTML=dows+cells;
+}
+
+// ── TRENDING ──
+function buildTrending(){
+  const sorted=[...events].sort((a,b)=>b.attend-a.attend).slice(0,5);
+  document.getElementById('trendingList').innerHTML=sorted.map((ev,i)=>`
+    <div class="trending-item" onclick="openModal(${ev.id})">
+      <div class="trending-num">${i+1}</div>
+      <div>
+        <div class="trending-text">${ev.title}</div>
+        <div class="trending-meta">👥 ${ev.attend} asistirán · ${catNames[ev.cat]}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── POLL ──
+const pollData=[
+  {label:'Académicos y talleres',votes:142},
+  {label:'Deportes y recreación',votes:89},
+  {label:'Arte y cultura',votes:203},
+  {label:'Trámites y becas',votes:67},
+];
+let pollVoted=false;
+function buildPoll(){
+  const total=pollData.reduce((s,p)=>s+p.votes,0);
+  document.getElementById('pollOpts').innerHTML=pollData.map((p,i)=>{
+    const pct=Math.round(p.votes/total*100);
+    return`<div class="poll-opt${pollVoted?' voted':''}" onclick="votePoll(${i})">
+      <span>${p.label}</span>
+      <span class="poll-pct">${pollVoted?pct+'%':''}</span>
+      ${pollVoted?`<div class="poll-bar-wrap"><div class="poll-bar" style="width:${pct}%"></div></div>`:''}
+    </div>`;
+  }).join('');
+}
+function votePoll(i){
+  if(pollVoted)return;
+  pollData[i].votes+=1;pollVoted=true;
+  buildPoll();
+  showToast('📊','¡Voto registrado!','Gracias por participar en la encuesta');
+}
+
+// ── THEME ──
+function toggleTheme(){
+  const html=document.documentElement;
+  const dark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('themeIcon').innerHTML=dark
+    ?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+}
+
+// ── SEARCH ──
+document.getElementById('searchInput').addEventListener('input',renderCards);
+
+// ── INIT ──
+buildHero();
+renderCards();
+buildCalendar();
+buildTrending();
+buildPoll();
+
+// Welcome toast
+setTimeout(()=>showToast('👋','Bienvenido','Hay 12 eventos activos esta semana en TESI'),800);
+</script>
+</body>
+</html>
